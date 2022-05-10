@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.change.javaandroidtry.dialog.DialogActivity;
 import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
+import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_spinner;
+    Button btn_spinner_day;
     Button btn_dialog_fullscreen;
 
     @Override
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initView(){
         btn_spinner = findViewById(R.id.btn_spinner);
         btn_spinner.setOnClickListener(this);
+        btn_spinner_day = findViewById(R.id.btn_spinner_day);
+        btn_spinner_day.setOnClickListener(this);
         btn_dialog_fullscreen = findViewById(R.id.btn_dialog_fullscreen);
         btn_dialog_fullscreen.setOnClickListener(this);
 
@@ -41,6 +45,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_spinner:
                Intent intent = new Intent(this, CustomSpinnerActivity.class);
                startActivity(intent);
+                break;
+
+            case R.id.btn_spinner_day:
+                Intent intent3 = new Intent(this, SpinnerDayActivity.class);
+                startActivity(intent3);
                 break;
 
             case R.id.btn_dialog_fullscreen:
