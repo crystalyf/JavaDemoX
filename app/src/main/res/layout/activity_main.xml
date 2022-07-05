@@ -25,4 +25,16 @@
         android:layout_height="wrap_content"
         android:text="dialog全屏" />
 
+    <Button
+        android:id="@+id/btn_okhttp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="okhttp3"/>
+
+    <Button
+        android:id="@+id/btn_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试按钮"/>
+
 </LinearLayout>
