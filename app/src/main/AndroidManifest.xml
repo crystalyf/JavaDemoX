@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.change.javaandroidtry">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,10 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".DatePickerDialogActivity"
+            android:exported="false" />
+        <activity
             android:name=".okhttpthree.Okhttp3Activity"
             android:exported="false" />
         <activity android:name=".spinner.CustomSpinnerActivity" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +29,7 @@
         </activity>
         <activity android:name=".dialog.DialogActivity" />
         <activity android:name=".spinner.spinnerday.SpinnerDayActivity" />
+        <activity android:name=".view.DatePickerDialogActivity" />
     </application>
 
 </manifest>

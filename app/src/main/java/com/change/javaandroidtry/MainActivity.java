@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,10 @@ import com.change.javaandroidtry.okhttpthree.eiken.ENRequestGetReceipt;
 import com.change.javaandroidtry.okhttpthree.eiken.SGLogHelper;
 import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
 import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
+import com.change.javaandroidtry.view.DatePickerDialogActivity;
 import com.google.gson.GsonBuilder;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.Request;
 
@@ -32,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_dialog_fullscreen;
     Button btn_okhttp;
     Button btn_text;
+    Button btn_date_picker_dialog;
+
+    ConcurrentHashMap<String, Long> lastBillingOkTimeMap = new ConcurrentHashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_okhttp.setOnClickListener(this);
         btn_text = findViewById(R.id.btn_text);
         btn_text.setOnClickListener(this);
-
+        btn_date_picker_dialog = findViewById(R.id.btn_date_picker_dialog);
+        btn_date_picker_dialog.setOnClickListener(this);
 
     }
 
@@ -82,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_text:
                 String str = "{\"orderId\":\"GPA.3395-3558-0075-86340\",\"packageName\":\"com.change.googleplaydemo\",\"productId\":\"com.change.googleplaydemo.product2\",\"purchaseTime\":1655272585857,\"purchaseState\":0,\"purchaseToken\":\"focdpdnlkfdijlpnkjcfefln.AO-J1OzIJ8tJqCDFhcb4edA_LzvWiPk2y888OU6lY-tCuuuB0pzg6WHVe92IN28aKNET5WSLMT-FD7Wi68FkEzvomVJA7QZhPqCzgdhScuhBF-Sn4xgJweo\",\"quantity\":1,\"acknowledged\":true}";
 
-
                 ENRequestGetReceipt innerReq = new ENRequestGetReceipt.Builder()
                         .receiptData(str)
                         .personalId("3000040645")
@@ -96,6 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
            //    String result = new GsonBuilder().setPrettyPrinting().create().toJson(str, str.getClass());
             //    Log.v("logStr:", "finish：");
+                break;
+
+            case R.id.btn_date_picker_dialog:
+                Intent intent5 = new Intent(this, DatePickerDialogActivity.class);
+                startActivity(intent5);
                 break;
 
         }

@@ -1,4 +1,4 @@
-package com.change.javaandroidtry.view;
+package com.change.javaandroidtry.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

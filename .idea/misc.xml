@@ -8,6 +8,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../../layout/custom_preview.xml" value="0.135258358662614" />
+        <entry key="app/src/main/res/layout/activity_date_picker_dialog.xml" value="0.26614583333333336" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10764944275582573" />
         <entry key="app/src/main/res/layout/activity_okhttp3.xml" value="0.240625" />
       </map>

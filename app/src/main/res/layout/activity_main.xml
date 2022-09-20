@@ -37,4 +37,10 @@
         android:layout_height="wrap_content"
         android:text="测试按钮"/>
 
+    <Button
+        android:id="@+id/btn_date_picker_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="date picker dialog"/>
+
 </LinearLayout>
