@@ -43,4 +43,10 @@
         android:layout_height="wrap_content"
         android:text="date picker dialog"/>
 
+    <Button
+        android:id="@+id/btn_open_firebase_in_app_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="代码的方式弹出dialog"/>
+
 </LinearLayout>

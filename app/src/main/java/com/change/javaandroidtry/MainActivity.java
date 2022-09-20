@@ -23,6 +23,11 @@ import com.change.javaandroidtry.okhttpthree.eiken.SGLogHelper;
 import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
 import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
 import com.change.javaandroidtry.view.DatePickerDialogActivity;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
+import com.google.firebase.inappmessaging.FirebaseInAppMessagingClickListener;
+import com.google.firebase.inappmessaging.model.Action;
+import com.google.firebase.inappmessaging.model.CampaignMetadata;
+import com.google.firebase.inappmessaging.model.InAppMessage;
 import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,13 +42,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_okhttp;
     Button btn_text;
     Button btn_date_picker_dialog;
+    Button btn_open_firebase_in_app_message;
 
     ConcurrentHashMap<String, Long> lastBillingOkTimeMap = new ConcurrentHashMap<>();
+
+    MyClickListener listener = new MyClickListener();
+
+    public class MyClickListener implements FirebaseInAppMessagingClickListener {
+
+        @Override
+        public void messageClicked(InAppMessage inAppMessage, Action action) {
+            // Determine which URL the user clicked
+            String url = action.getActionUrl();
+
+            // Get general information about the campaign
+            CampaignMetadata metadata = inAppMessage.getCampaignMetadata();
+            Log.v("logStr:", metadata.getCampaignName());
+            // ...
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseInAppMessaging.getInstance().addClickListener(listener);
         initView();
     }
 
@@ -60,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_text.setOnClickListener(this);
         btn_date_picker_dialog = findViewById(R.id.btn_date_picker_dialog);
         btn_date_picker_dialog.setOnClickListener(this);
+        btn_open_firebase_in_app_message = findViewById(R.id.btn_open_firebase_in_app_message);
+        btn_open_firebase_in_app_message.setOnClickListener(this);
 
     }
 
@@ -108,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_date_picker_dialog:
                 Intent intent5 = new Intent(this, DatePickerDialogActivity.class);
                 startActivity(intent5);
+                break;
+
+
+            case R.id.btn_open_firebase_in_app_message:
+                //控制台上设置的event名字是[on_button_open]，如此才能在执行triggerEvent后响应弹出dialog
+                FirebaseInAppMessaging.getInstance().triggerEvent("on_button_open");
                 break;
 
         }
