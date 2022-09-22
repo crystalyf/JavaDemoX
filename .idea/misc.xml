@@ -9,9 +9,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../../layout/custom_preview.xml" value="0.135258358662614" />
+        <entry key="app/src/main/res/drawable/rdobtn_selecter.xml" value="0.1075" />
         <entry key="app/src/main/res/layout/activity_date_picker_dialog.xml" value="0.26614583333333336" />
+        <entry key="app/src/main/res/layout/activity_dialog.xml" value="0.24739583333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10764944275582573" />
         <entry key="app/src/main/res/layout/activity_okhttp3.xml" value="0.240625" />
+        <entry key="app/src/main/res/layout/activity_radio_button_phone_money.xml" value="0.24739583333333334" />
       </map>
     </option>
   </component>

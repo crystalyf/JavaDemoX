@@ -49,4 +49,10 @@
         android:layout_height="wrap_content"
         android:text="代码的方式弹出dialog"/>
 
+    <Button
+        android:id="@+id/btn_to_radiobutton_phone_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="代码的方式弹出dialog"/>
+
 </LinearLayout>

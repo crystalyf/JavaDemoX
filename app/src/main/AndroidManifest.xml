@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".RadioButtonPhoneMoneyActivity"
+            android:exported="false" />
+        <activity
             android:name=".DatePickerDialogActivity"
             android:exported="false" />
         <activity
@@ -30,6 +33,7 @@
         <activity android:name=".dialog.DialogActivity" />
         <activity android:name=".spinner.spinnerday.SpinnerDayActivity" />
         <activity android:name=".view.DatePickerDialogActivity" />
+        <activity android:name=".view.RadioButtonPhoneMoneyActivity" />
     </application>
 
 </manifest>

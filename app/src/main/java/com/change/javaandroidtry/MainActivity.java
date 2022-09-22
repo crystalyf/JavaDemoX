@@ -23,6 +23,7 @@ import com.change.javaandroidtry.okhttpthree.eiken.SGLogHelper;
 import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
 import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
 import com.change.javaandroidtry.view.DatePickerDialogActivity;
+import com.change.javaandroidtry.view.RadioButtonPhoneMoneyActivity;
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.inappmessaging.FirebaseInAppMessagingClickListener;
 import com.google.firebase.inappmessaging.model.Action;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_text;
     Button btn_date_picker_dialog;
     Button btn_open_firebase_in_app_message;
+    Button btn_to_radiobutton_phone_money;
 
     ConcurrentHashMap<String, Long> lastBillingOkTimeMap = new ConcurrentHashMap<>();
 
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_date_picker_dialog.setOnClickListener(this);
         btn_open_firebase_in_app_message = findViewById(R.id.btn_open_firebase_in_app_message);
         btn_open_firebase_in_app_message.setOnClickListener(this);
+        btn_to_radiobutton_phone_money = findViewById(R.id.btn_to_radiobutton_phone_money);
+        btn_to_radiobutton_phone_money.setOnClickListener(this);
 
     }
 
@@ -139,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_open_firebase_in_app_message:
                 //控制台上设置的event名字是[on_button_open]，如此才能在执行triggerEvent后响应弹出dialog
                 FirebaseInAppMessaging.getInstance().triggerEvent("on_button_open");
+                break;
+            case R.id.btn_to_radiobutton_phone_money:
+                Intent intent6 = new Intent(this, RadioButtonPhoneMoneyActivity.class);
+                startActivity(intent6);
                 break;
 
         }
