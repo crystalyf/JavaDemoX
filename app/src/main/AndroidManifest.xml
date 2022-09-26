@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".DragListItemToTargetActivity"
+            android:exported="false" />
         <activity
             android:name=".RadioButtonPhoneMoneyActivity"
             android:exported="false" />
@@ -34,6 +39,7 @@
         <activity android:name=".spinner.spinnerday.SpinnerDayActivity" />
         <activity android:name=".view.DatePickerDialogActivity" />
         <activity android:name=".view.RadioButtonPhoneMoneyActivity" />
+        <activity android:name=".view.dragtotarget.DragListItemToTargetActivity" />
     </application>
 
 </manifest>

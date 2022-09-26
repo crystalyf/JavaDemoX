@@ -55,4 +55,10 @@
         android:layout_height="wrap_content"
         android:text="代码的方式弹出dialog"/>
 
+    <Button
+        android:id="@+id/btn_to_drag_list_item_to_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拖拽list item 到指定位置"/>
+
 </LinearLayout>

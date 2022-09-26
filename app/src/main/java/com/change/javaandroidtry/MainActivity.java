@@ -1,19 +1,12 @@
 package com.change.javaandroidtry;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.change.javaandroidtry.dialog.DialogActivity;
 import com.change.javaandroidtry.okhttpthree.Okhttp3Activity;
@@ -24,16 +17,14 @@ import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
 import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
 import com.change.javaandroidtry.view.DatePickerDialogActivity;
 import com.change.javaandroidtry.view.RadioButtonPhoneMoneyActivity;
+import com.change.javaandroidtry.view.dragtotarget.DragListItemToTargetActivity;
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.inappmessaging.FirebaseInAppMessagingClickListener;
 import com.google.firebase.inappmessaging.model.Action;
 import com.google.firebase.inappmessaging.model.CampaignMetadata;
 import com.google.firebase.inappmessaging.model.InAppMessage;
-import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.ConcurrentHashMap;
-
-import okhttp3.Request;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_date_picker_dialog;
     Button btn_open_firebase_in_app_message;
     Button btn_to_radiobutton_phone_money;
+    Button btn_to_drag_list_item_to_target;
 
     ConcurrentHashMap<String, Long> lastBillingOkTimeMap = new ConcurrentHashMap<>();
 
@@ -72,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         btn_spinner = findViewById(R.id.btn_spinner);
         btn_spinner.setOnClickListener(this);
         btn_spinner_day = findViewById(R.id.btn_spinner_day);
@@ -89,16 +81,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_open_firebase_in_app_message.setOnClickListener(this);
         btn_to_radiobutton_phone_money = findViewById(R.id.btn_to_radiobutton_phone_money);
         btn_to_radiobutton_phone_money.setOnClickListener(this);
+        btn_to_drag_list_item_to_target = findViewById(R.id.btn_to_drag_list_item_to_target);
+        btn_to_drag_list_item_to_target.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.btn_spinner:
-               Intent intent = new Intent(this, CustomSpinnerActivity.class);
-               startActivity(intent);
+                Intent intent = new Intent(this, CustomSpinnerActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.btn_spinner_day:
@@ -130,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 logAtRequest(baseReq.getJson());
 
-           //    String result = new GsonBuilder().setPrettyPrinting().create().toJson(str, str.getClass());
-            //    Log.v("logStr:", "finish：");
+                //    String result = new GsonBuilder().setPrettyPrinting().create().toJson(str, str.getClass());
+                //    Log.v("logStr:", "finish：");
                 break;
 
             case R.id.btn_date_picker_dialog:
@@ -147,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_to_radiobutton_phone_money:
                 Intent intent6 = new Intent(this, RadioButtonPhoneMoneyActivity.class);
                 startActivity(intent6);
+                break;
+
+            case R.id.btn_to_drag_list_item_to_target:
+                Intent intent7 = new Intent(this, DragListItemToTargetActivity.class);
+                startActivity(intent7);
                 break;
 
         }
