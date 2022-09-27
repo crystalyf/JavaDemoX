@@ -17,6 +17,7 @@ import com.change.javaandroidtry.spinner.CustomSpinnerActivity;
 import com.change.javaandroidtry.spinner.spinnerday.SpinnerDayActivity;
 import com.change.javaandroidtry.view.DatePickerDialogActivity;
 import com.change.javaandroidtry.view.RadioButtonPhoneMoneyActivity;
+import com.change.javaandroidtry.view.dragchoose.DragChooseActivity;
 import com.change.javaandroidtry.view.dragtotarget.DragListItemToTargetActivity;
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.inappmessaging.FirebaseInAppMessagingClickListener;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_open_firebase_in_app_message;
     Button btn_to_radiobutton_phone_money;
     Button btn_to_drag_list_item_to_target;
+    Button btn_to_drag_choose;
 
     ConcurrentHashMap<String, Long> lastBillingOkTimeMap = new ConcurrentHashMap<>();
 
@@ -83,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_to_radiobutton_phone_money.setOnClickListener(this);
         btn_to_drag_list_item_to_target = findViewById(R.id.btn_to_drag_list_item_to_target);
         btn_to_drag_list_item_to_target.setOnClickListener(this);
+        btn_to_drag_choose = findViewById(R.id.btn_to_drag_choose);
+        btn_to_drag_choose.setOnClickListener(this);
 
     }
 
@@ -145,6 +149,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_to_drag_list_item_to_target:
                 Intent intent7 = new Intent(this, DragListItemToTargetActivity.class);
                 startActivity(intent7);
+                break;
+
+            case R.id.btn_to_drag_choose:
+                Intent intent8 = new Intent(this, DragChooseActivity.class);
+                startActivity(intent8);
                 break;
 
         }

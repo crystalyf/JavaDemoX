@@ -12,12 +12,15 @@
         <entry key="app/src/main/res/drawable/rdobtn_selecter.xml" value="0.1075" />
         <entry key="app/src/main/res/layout/activity_date_picker_dialog.xml" value="0.26614583333333336" />
         <entry key="app/src/main/res/layout/activity_dialog.xml" value="0.24739583333333334" />
+        <entry key="app/src/main/res/layout/activity_drag_choose.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/activity_drag_list_item_to_target.xml" value="0.178125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.10764944275582573" />
         <entry key="app/src/main/res/layout/activity_okhttp3.xml" value="0.240625" />
         <entry key="app/src/main/res/layout/activity_radio_button_phone_money.xml" value="0.24739583333333334" />
         <entry key="app/src/main/res/layout/drag_list_item_to_target.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_drag_to_target.xml" value="0.15" />
+        <entry key="app/src/main/res/layout/item_rea_rec.xml" value="0.178125" />
+        <entry key="app/src/main/res/layout/layout_drag_chess.xml" value="0.178125" />
       </map>
     </option>
   </component>
