@@ -23,6 +23,9 @@ import com.change.javaandroidtry.view.dragchoose.adapter.DragAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 可拖拽item出列表的自定义View （其中有GridView）
+ */
 public class DragView extends FrameLayout {
     private static final int TAG_KEY = R.id.my_c_id;
     private NoScrollGridView mGridView;
@@ -157,7 +160,7 @@ public class DragView extends FrameLayout {
     /**
      * @param from
      * @param to
-     * @描述:动画效果移动View
+     * @描述:动画效果移动View （top部分列表内拖拽的动画效果）
      */
     public void translateView(int from, int to) {
         View view = mChilds.get(from);
@@ -345,6 +348,11 @@ public class DragView extends FrameLayout {
         return 0;
     }
 
+    /**
+     * 添加被交换的item view
+     *
+     * @param data
+     */
     public void addSwapView(Object data) {
         adapter.addNewData(data);
     }

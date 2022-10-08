@@ -4,6 +4,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+/**
+ * 接口类
+ */
 public abstract class DragAdapter extends BaseAdapter {
 
     /**

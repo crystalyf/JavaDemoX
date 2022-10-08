@@ -63,8 +63,8 @@ public class DragChessView extends FrameLayout {
     private Point mMovePoint; // 记录移动走向，上到下，还是下到上
 
     /**
-     * @param itemClickListener
-     * @描述:item 转交给gridview一些常用监听器
+     * @param itemClickListener itemClickListener
+     * 转交给gridview一些常用监听器
      */
     public void setOnItemClickListener(AdapterView.OnItemClickListener itemClickListener) {
         mDragBottom.setOnItemClickListener(itemClickListener);
@@ -73,23 +73,29 @@ public class DragChessView extends FrameLayout {
     /**
      * 长按监听器自己触发,点击拖动模式不存在长按
      *
-     * @param
+     * @param  itemLongClickListener itemLongClickListener
      */
     public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener itemLongClickListener) {
         this.itemLongClickListener = itemLongClickListener;
     }
 
     private boolean canAddViewWhenDragChange = true;
+    //开始拖拽的是哪个列表， start or bottom //todo： 删掉
     private int mStartPoint;
-    private int START_DRAG_TOP = 0;
-    private int START_DRAG_BOTTOM = 1;
+    //拖拽的是top部分的列表
+    private final int START_DRAG_TOP = 0;
+    //拖拽的是bottom部分的列表 todo： 删掉
+    private final int START_DRAG_BOTTOM = 1;
     /**
      * 手势监听器,滚动和单击
      */
-    private GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
+    private final GestureDetector.SimpleOnGestureListener simpleOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            /*
+             * 缓慢滑动，手指滑动屏幕的过程中执行
+             */
             if (hasSendDragMsg) {
                 hasSendDragMsg = false;
                 handler.removeMessages(0x123);
@@ -110,8 +116,10 @@ public class DragChessView extends FrameLayout {
                 int to = eventToPosition(e2);
                 mCopyView.invalidate();
                 if (isDragInTop()) {
+                    //拖拽在top区域内的情况
                     if (isDragFromBottom()) {
-                        if (isDragBack(isDragInTop())) { //针对已经进入bottom区域，但是又返回来的情况
+                        //针对已经进入bottom区域，但是又返回来Top区域的情况
+                        if (isDragBack(isDragInTop())) {
                             mStartPoint = START_DRAG_BOTTOM; //切换，保证移动过程中只执行一次
                             canAddViewWhenDragChange = true;
                         }
@@ -133,6 +141,7 @@ public class DragChessView extends FrameLayout {
                     if (mDragTop.isViewInitDone())
                         dragChangePosition(mDragTop, to);
                 } else {
+                    //拖拽在top区域外的情况
                     if (isDragFromTop()) {
                         if (isDragBack(isDragInTop())) {
                             mStartPoint = START_DRAG_TOP;
@@ -154,8 +163,6 @@ public class DragChessView extends FrameLayout {
                             mMovePoint = getDragViewCenterPoint(mDragBottom);
                         }
                     }
-                    if (mDragBottom.isViewInitDone())
-                        dragChangePosition(mDragBottom, to);
                 }
             }
             return true;
@@ -163,7 +170,7 @@ public class DragChessView extends FrameLayout {
 
         @Override
         public void onShowPress(MotionEvent e) {
-            /** 响应长按拖拽 */
+            /* 响应长按拖拽 */
             if (mDragMode == DRAG_BY_LONG_CLICK) {
                 // 启动拖拽模式
                 // isDragable = true;
@@ -239,8 +246,11 @@ public class DragChessView extends FrameLayout {
     }
 
     private FrameLayout mDragFrame;
+    //bottom 区域的列表view
     private DragView mDragBottom;
+    //top 区域的列表view
     private DragView mDragTop;
+    //被拖拽的item在点击的时候，隐藏掉列表中的本体item。（拖拽的是个副本view）
     private View hideView;
     private long dragLongPressTime = 600;
 
@@ -257,6 +267,10 @@ public class DragChessView extends FrameLayout {
         init(attrs);
     }
 
+    /**
+     *  初始化布局
+     * @param attrs attrs
+     */
     private void init(AttributeSet attrs) {
         Context context = getContext();
         detector = new GestureDetector(context, simpleOnGestureListener);
@@ -301,6 +315,11 @@ public class DragChessView extends FrameLayout {
         dragView.dispatchEvent(ev);
     }
 
+    /**
+     * 如果是在top部分的列表内拖拽
+     *
+     * @return
+     */
     private boolean isDragInTop() {
         if (mCopyView == null)
             return false;
@@ -400,7 +419,7 @@ public class DragChessView extends FrameLayout {
 
 
     /**
-     * 复制一个镜像,并添加到透明层
+     * 复制一个镜像,并添加到透明层 (拖动的item就是复制出来的)
      */
     private void copyView(DragView dragView) {
         // TODO: 2018/4/2 创建可移动的 item
