@@ -45,7 +45,11 @@ public class DragView extends FrameLayout {
     private DragAdapter adapter;
     private int headDragPosition = 0;
     private int footDragPosition = 0;
+    //当前拖拽item的index
     private int currentDragPosition = -1;
+    //当前拖拽item的value
+    private String currentDragValue = "";
+
     /**
      * 是否有位置发生改变,否则不用重绘
      */
@@ -291,6 +295,14 @@ public class DragView extends FrameLayout {
         return currentDragPosition;
     }
 
+    public String getCurrentDragValue() {
+        return currentDragValue;
+    }
+
+    public void setCurrentDragValue(String currentDragValue) {
+        this.currentDragValue = currentDragValue;
+    }
+
     public int getmColHeight() {
         return mColHeight;
     }
@@ -364,6 +376,17 @@ public class DragView extends FrameLayout {
     public void removeSwapView() {
         if (adapter != null) {
             adapter.removeData(currentDragPosition);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * delete 指定index的 数据
+     * @param position
+     */
+    public void removeTargetData(int position) {
+        if (adapter != null) {
+            adapter.removeData(position);
             adapter.notifyDataSetChanged();
         }
     }
