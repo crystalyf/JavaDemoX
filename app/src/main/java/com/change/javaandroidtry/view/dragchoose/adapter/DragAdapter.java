@@ -37,7 +37,9 @@ public abstract class DragAdapter extends BaseAdapter {
         return false;
     }
 
-    public abstract Object getSwapData(int position);
+    public String getSwapData(int position) {
+        return "";
+    }
 
     public abstract void removeData(int position);
 

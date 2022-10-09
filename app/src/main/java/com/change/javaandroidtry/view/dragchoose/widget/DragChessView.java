@@ -39,10 +39,8 @@ public class DragChessView extends FrameLayout {
             if (msg.what == 0x123) {// 启动拖拽模式
                 isDraggable = true;
                 // 根据点击的位置生成该位置上的view镜像
-                if (isTouchInTop(msg.arg2, Float.parseFloat((int) msg.obj + ""))) {
-                    mDragTop.setCurrentDragPosition(msg.arg1);
-                    copyView(mDragTop);
-                }
+                mDragTop.setCurrentDragPosition(msg.arg1);
+                copyView(mDragTop);
                 hasSendDragMsg = false;
             }
             return false;
@@ -116,11 +114,12 @@ public class DragChessView extends FrameLayout {
                 getParent().requestDisallowInterceptTouchEvent(true);
                 // 根据点击的位置生成该位置上的view镜像
                 int position = eventToPosition(e);
+                Log.v("logStr:", "isCanDragMove");
                 if (isCanDragMove(mDragTop, position)) {
-                    // copyView(currentDragPosition = position);
                     Message msg = handler.obtainMessage(0x123, position, (int) e.getX(), (int) e.getY());
                     // show press本身大概需要170毫秒
                     handler.sendMessageDelayed(msg, dragLongPressTime - 170);
+                    Log.v("logStr:", "sendMessageDelayed:"+position);
                     mMovePoint = new Point((int) e.getX(), (int) e.getY());
                     hasSendDragMsg = true;
                 }

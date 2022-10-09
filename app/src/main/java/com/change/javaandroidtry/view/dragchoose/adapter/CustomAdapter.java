@@ -58,7 +58,7 @@ public class CustomAdapter extends DragAdapter {
     }
 
     @Override
-    public Object getSwapData(int position) {
+    public String getSwapData(int position) {
         return list.get(position);
     }
 
