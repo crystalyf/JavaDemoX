@@ -37,6 +37,6 @@ public class DragChooseActivity extends AppCompatActivity {
             list.add(('A' + j) + "");
         }
 //        dragChessView.setBottomAdapter(new CustomAdapter(list));
-        dragChessView.setTopAdapter(new CustomAdapter(arrayList));
+        dragChessView.setLeftAdapter(new CustomAdapter(arrayList));
     }
 }
