@@ -46,4 +46,13 @@ public abstract class DragAdapter extends BaseAdapter {
     public void addNewData(Object data) {
 
     }
+
+    /**
+     * 增加数据源到指定位置
+     * @param index
+     * @param data
+     */
+    public void addDataByIndex(int index, String data) {
+
+    }
 }

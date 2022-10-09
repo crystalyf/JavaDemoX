@@ -38,9 +38,12 @@ public class DragChessView extends FrameLayout {
         public boolean handleMessage(Message msg) {
             if (msg.what == 0x123) {// 启动拖拽模式
                 isDraggable = true;
-                // 根据点击的位置生成该位置上的view镜像
+                // 保存当前拖拽的index和value
                 mDragTop.setCurrentDragPosition(msg.arg1);
+                mDragTop.setCurrentDragValue(mDragTop.getTargetDataByIndex(mDragTop.getCurrentDragPosition()));
+                // 根据点击的位置生成该位置上的view镜像
                 copyView(mDragTop);
+                mDragTop.removeTargetData(mDragTop.getCurrentDragPosition());
                 hasSendDragMsg = false;
             }
             return false;
@@ -53,7 +56,7 @@ public class DragChessView extends FrameLayout {
     private OnTouchListener l;
     private int mTouchArea = 0;
     private View dragSlider;
-    private Point mMovePoint; // 记录移动走向，上到下，还是下到上
+    private Point mMovePoint; // 记录移动走向，上到下，还是下到上 （记录初始长按拖拽的位置）
 
 
     //是否能添加view到右边的布局。 默认是true
@@ -85,16 +88,17 @@ public class DragChessView extends FrameLayout {
 
                 mCopyView.setX(mCopyView.getX() - distanceX);
                 mCopyView.setY(mCopyView.getY() - distanceY);
-                int to = eventToPosition(e2);
                 //刷新重绘当前的View
                 mCopyView.invalidate();
                 if (isDragInTop()) {
-                    Log.v("logStr:", "isDragInTop");
+                    if (canAddViewWhenDragChange) {// 保证移动过程中，数据只有一次的添加
+                        canAddViewWhenDragChange = false;
+                        if (hideView != null)
+                            hideView.setVisibility(VISIBLE);
+                    }
 
                 } else {
-                    Log.v("logStr:", "isDragFromTop()");
-
-                    //拖拽在top区域外的情况
+                    //从top区域拖拽到top之外的情况
                     if (isDragFromTop()) {
                         if (canAddViewWhenDragChange) {
                             mDragTop.removeSwapView();
@@ -119,7 +123,8 @@ public class DragChessView extends FrameLayout {
                     Message msg = handler.obtainMessage(0x123, position, (int) e.getX(), (int) e.getY());
                     // show press本身大概需要170毫秒
                     handler.sendMessageDelayed(msg, dragLongPressTime - 170);
-                    Log.v("logStr:", "sendMessageDelayed:"+position);
+                    Log.v("logStr:", "sendMessageDelayed:" + position);
+                    //记录初始长按拖拽的位置
                     mMovePoint = new Point((int) e.getX(), (int) e.getY());
                     hasSendDragMsg = true;
                 }
@@ -231,6 +236,11 @@ public class DragChessView extends FrameLayout {
         return ((mCopyView.getY() < (mDragTop.getY() + mDragTop.getHeight())) && (mCopyView.getX() < (mDragTop.getX() + mDragTop.getWidth())));
     }
 
+    /**
+     * 从top区域拖拽到top之外的区域
+     *
+     * @return bool
+     */
     private boolean isDragFromTop() {
         if (mMovePoint != null && mDragTop != null) {
             if ((mMovePoint.x > mDragTop.getX() && mMovePoint.x < (mDragTop.getX() + mDragTop.getWidth())) && (mMovePoint.y > mDragTop.getY() && mMovePoint.y < (mDragTop.getY() + mDragTop.getHeight()))) {
@@ -238,6 +248,18 @@ public class DragChessView extends FrameLayout {
             }
         }
         return false;
+    }
+
+    /**
+     * 是否拖拽到了右布局区域
+     *
+     * @return bool
+     */
+    private boolean isDragInRightArea() {
+        if (mDragTop == null || mRvEnd == null) {
+            return true;
+        }
+        return (((mRvEnd.getX() < mCopyView.getX()) && (mCopyView.getX() < (mRvEnd.getX() + mRvEnd.getWidth()))) && ((mRvEnd.getY() < mCopyView.getY()) && (mCopyView.getY() < (mRvEnd.getY() + mRvEnd.getHeight()))));
     }
 
     /**
@@ -275,6 +297,7 @@ public class DragChessView extends FrameLayout {
                 mCopyView = null;
                 //抬起时，恢复addView的flag
                 canAddViewWhenDragChange = true;
+                mDragTop.clearCurrentDragInfo();
                 // 放手时取消拖动排序模式
                 if (mDragMode == DRAG_BY_LONG_CLICK) {
                     isDraggable = false;
@@ -285,10 +308,22 @@ public class DragChessView extends FrameLayout {
         }
     }
 
+    /**
+     * todo： 判断并显示刷新界面逻辑 （左布局是否恢复拖拽的item，右布局是否需要新增item）
+     *
+     * @param dragView 左边布局
+     * @param ev       touch motionEvent
+     */
     private void updateUI(DragView dragView, MotionEvent ev) {
-        if (dragView.isHasPositionChange()) {
-            dragView.setHasPositionChange(false);
-            dragView.getAdapter().notifyDataSetChanged();
+        //当前松手之前，有拖拽的item
+        if (mDragTop.getCurrentDragPosition() != -1) {
+            //如果没拖到右边的区域，那么将拖拽的item恢复
+            if (!isDragInRightArea()) {
+                mDragTop.addDataByIndex(mDragTop.getCurrentDragPosition(), mDragTop.getCurrentDragValue());
+                dragView.getAdapter().notifyDataSetChanged();
+            }else {
+                //todo: 拖拽到右布局的逻辑
+            }
         }
         // 停止滚动
         if (dragView.isCanScroll()) {
@@ -321,7 +356,6 @@ public class DragChessView extends FrameLayout {
      * 得到事件触发点, 摸到的是哪一个item
      */
     public int eventToPosition(MotionEvent ev) {
-
         if (ev != null) {
             if (isTouchInTop(ev))
                 return mDragTop.eventToPosition(ev);
@@ -377,8 +411,8 @@ public class DragChessView extends FrameLayout {
     /**
      * 拖拽时改变item的下标index （因为拖拽的时候列表内部item不变，所以这个函数在英检的功能里用不上）
      *
-     * @param dragView
-     * @param to
+     * @param dragView dragView
+     * @param to to
      */
     private void dragChangePosition(DragView dragView, int to) {
         if (to != dragView.getCurrentDragPosition() && isCanDragMove(dragView, to)) {

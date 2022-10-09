@@ -74,6 +74,11 @@ public class CustomAdapter extends DragAdapter {
         }
     }
 
+    @Override
+    public void addDataByIndex(int index, String data) {
+        list.add(index, data);
+    }
+
     static class ViewHolder {
         public TextView tv_mid;
     }

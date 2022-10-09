@@ -45,13 +45,14 @@ public class DragView extends FrameLayout {
     private DragAdapter adapter;
     private int headDragPosition = 0;
     private int footDragPosition = 0;
-    //当前拖拽item的index
+    //当前拖拽item的index, 无拖拽默认是-1
     private int currentDragPosition = -1;
     //当前拖拽item的value
     private String currentDragValue = "";
 
     /**
-     * 是否有位置发生改变,否则不用重绘
+     * todo: not use
+     * 是否有位置发生改变,否则不用重绘 （这个是用于gridview内部拖拽改变位置的，eiken本次对应用不上）
      */
     private boolean hasPositionChange = false;
     /**
@@ -182,7 +183,7 @@ public class DragView extends FrameLayout {
     /**
      * @param from
      * @param to
-     * @描述:拖动View使位置发生改变时
+     * @描述:拖动View使位置发生改变时 （not use）
      */
     public void onDragPositionChange(int from, int to) {
         if (from > to) {
@@ -369,8 +370,22 @@ public class DragView extends FrameLayout {
         adapter.addNewData(data);
     }
 
-    public Object getSwapData() {
-        return adapter.getSwapData(currentDragPosition);
+    /**
+     * 增加数据源到指定位置
+     * @param index index
+     * @param data data
+     */
+    public void addDataByIndex(int index, String data) {
+        adapter.addDataByIndex(index, data);
+    }
+
+    /**
+     * 根据下标获取拖拽item的data（数据源）
+     * @param index 下标
+     * @return value
+     */
+    public String getTargetDataByIndex(int index) {
+        return adapter.getSwapData(index);
     }
 
     public void removeSwapView() {
@@ -389,6 +404,14 @@ public class DragView extends FrameLayout {
             adapter.removeData(position);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    /**
+     * 清空当前正在拖拽的信息
+     */
+    public void clearCurrentDragInfo() {
+        currentDragValue = "";
+        currentDragPosition = -1;
     }
 
     class ListenScrollView extends ScrollView {
