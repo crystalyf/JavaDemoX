@@ -48,6 +48,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.1'
 
+    implementation 'de.greenrobot:eventbus:2.4.0'
+
     compileOnly 'org.projectlombok:lombok:1.16.4'
     annotationProcessor 'org.projectlombok:lombok:1.16.4'
 

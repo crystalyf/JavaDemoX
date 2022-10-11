@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin_root"
     android:layout_width="45dp"
     android:layout_height="35dp"
-    android:background="@color/colorAccent"
+    android:background="@color/colorRed"
     android:orientation="vertical">
 
     <TextView

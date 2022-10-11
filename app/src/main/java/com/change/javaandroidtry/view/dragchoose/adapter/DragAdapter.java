@@ -4,6 +4,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.change.javaandroidtry.view.dragchoose.bean.LeftBean;
+
 /**
  * 接口类
  */
@@ -37,8 +39,8 @@ public abstract class DragAdapter extends BaseAdapter {
         return false;
     }
 
-    public String getSwapData(int position) {
-        return "";
+    public LeftBean getSwapData(int position) {
+        return null;
     }
 
     public abstract void removeData(int position);
@@ -49,10 +51,11 @@ public abstract class DragAdapter extends BaseAdapter {
 
     /**
      * 增加数据源到指定位置
-     * @param index
-     * @param data
+     *
+     * @param index index
+     * @param bean  leftBean
      */
-    public void addDataByIndex(int index, String data) {
+    public void addDataByIndex(int index, LeftBean bean) {
 
     }
 }

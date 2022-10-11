@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.change.javaandroidtry.R;
 import com.change.javaandroidtry.view.dragchoose.adapter.DragAdapter;
+import com.change.javaandroidtry.view.dragchoose.bean.LeftBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -375,7 +376,7 @@ public class DragView extends FrameLayout {
      * @param index index
      * @param data data
      */
-    public void addDataByIndex(int index, String data) {
+    public void addDataByIndex(int index, LeftBean data) {
         adapter.addDataByIndex(index, data);
     }
 
@@ -384,7 +385,7 @@ public class DragView extends FrameLayout {
      * @param index 下标
      * @return value
      */
-    public String getTargetDataByIndex(int index) {
+    public LeftBean getTargetDataByIndex(int index) {
         return adapter.getSwapData(index);
     }
 

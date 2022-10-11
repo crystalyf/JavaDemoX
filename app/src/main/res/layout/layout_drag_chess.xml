@@ -29,6 +29,5 @@
         android:id="@+id/rv_right"
         android:layout_width="60dp"
         android:layout_height="350dp"
-        android:layout_alignParentEnd="true"
-        android:background="@color/colorPrimary" />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

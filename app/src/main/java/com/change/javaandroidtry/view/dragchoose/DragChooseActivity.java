@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.change.javaandroidtry.R;
 import com.change.javaandroidtry.view.dragchoose.adapter.CustomAdapter;
+import com.change.javaandroidtry.view.dragchoose.adapter.RightChooseAdapter;
+import com.change.javaandroidtry.view.dragchoose.bean.LeftBean;
+import com.change.javaandroidtry.view.dragchoose.bean.RightBean;
 import com.change.javaandroidtry.view.dragchoose.widget.DragChessView;
 
 import java.util.ArrayList;
@@ -16,6 +19,10 @@ import java.util.ArrayList;
 public class DragChooseActivity extends AppCompatActivity {
 
     DragChessView dragChessView;
+    //左布局数据源
+    ArrayList<LeftBean> leftList = new ArrayList<>();
+    //右布局数据源
+    ArrayList<RightBean> rightList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +34,16 @@ public class DragChooseActivity extends AppCompatActivity {
     void initView() {
         dragChessView = findViewById(R.id.drag_main);
         dragChessView.setDragModel(DragChessView.DRAG_BY_LONG_CLICK);
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<String> list = new ArrayList<>();
+
         for (int i = 0; i < 30; i++) {
-            arrayList.add("" + i);
+            LeftBean bean = new LeftBean();
+            bean.setItemName("" + i);
+            bean.setDragInRight(false);
+            bean.setUserAdd(false);
+            leftList.add(bean);
         }
 
-        for (int j = 0; j < 30; j++) {
-            list.add(('A' + j) + "");
-        }
-//        dragChessView.setBottomAdapter(new CustomAdapter(list));
-        dragChessView.setLeftAdapter(new CustomAdapter(arrayList));
+        dragChessView.setLeftAdapter(new CustomAdapter(leftList));
+        dragChessView.setRightAdapter(new RightChooseAdapter(rightList));
     }
 }

@@ -14,10 +14,14 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.change.javaandroidtry.R;
 import com.change.javaandroidtry.view.dragchoose.adapter.DragAdapter;
+import com.change.javaandroidtry.view.dragchoose.adapter.RightChooseAdapter;
+import com.change.javaandroidtry.view.dragchoose.bean.LeftBean;
+import com.change.javaandroidtry.view.dragchoose.bean.RightBean;
 import com.google.firebase.database.annotations.NotNull;
 
 public class DragChessView extends FrameLayout {
@@ -38,9 +42,13 @@ public class DragChessView extends FrameLayout {
         public boolean handleMessage(Message msg) {
             if (msg.what == 0x123) {// 启动拖拽模式
                 isDraggable = true;
+
+                //todo: 判断是否已经是拖拽之后的item
+
                 // 保存当前拖拽的index和value
                 mDragLeftView.setCurrentDragPosition(msg.arg1);
-                mDragLeftView.setCurrentDragValue(mDragLeftView.getTargetDataByIndex(mDragLeftView.getCurrentDragPosition()));
+                mDragLeftView.setCurrentDragValue(mDragLeftView.getTargetDataByIndex(mDragLeftView.getCurrentDragPosition()).getItemName());
+
                 // 根据点击的位置生成该位置上的view镜像
                 copyView(mDragLeftView);
                 mDragLeftView.removeTargetData(mDragLeftView.getCurrentDragPosition());
@@ -62,6 +70,9 @@ public class DragChessView extends FrameLayout {
 
     //是否能添加view到右边的布局。 默认是true
     private boolean canAddViewWhenDragChange = true;
+
+    private RightChooseAdapter rightChooseAdapter;
+
     /**
      * 手势监听器,滚动和单击
      */
@@ -101,10 +112,7 @@ public class DragChessView extends FrameLayout {
                 } else {
                     //从left区域拖拽到left之外的区域的情况
                     if (isDragFromLeft()) {
-                        if (canAddViewWhenDragChange) {
-                            mDragLeftView.removeSwapView();
-                            canAddViewWhenDragChange = false;
-                        }
+                        //todo: 暂无逻辑处理
                     }
                 }
             }
@@ -156,8 +164,16 @@ public class DragChessView extends FrameLayout {
         return (y > mDragLeftView.getY() && y < (mDragLeftView.getY() + mDragLeftView.getHeight())) && (x > mDragLeftView.getX() && x < (mDragLeftView.getX() + mDragLeftView.getWidth()));
     }
 
+    /**
+     * 是否可以拖动
+     *
+     * @param dragView
+     * @param position
+     * @return
+     */
     private boolean isCanDragMove(DragView dragView, int position) {
-        return position >= dragView.getHeadDragPosition() && position < dragView.getGridChildCount() - dragView.getFootDragPosition();
+        //条件3： 不能是拖拽到右边的item
+        return position >= dragView.getHeadDragPosition() && (position < dragView.getGridChildCount() - dragView.getFootDragPosition()) && !mDragLeftView.getTargetDataByIndex(position).getIsDragInRight();
     }
 
     private FrameLayout mDragFrame;
@@ -324,12 +340,24 @@ public class DragChessView extends FrameLayout {
     private void updateUI(DragView dragView, MotionEvent ev) {
         //当前松手之前，有拖拽的item
         if (mDragLeftView.getCurrentDragPosition() != -1) {
+
+            LeftBean bean = new LeftBean();
+            String itemName = mDragLeftView.getCurrentDragValue();
+            bean.setItemName(itemName);
+            bean.setUserAdd(false);
+            mDragLeftView.addDataByIndex(mDragLeftView.getCurrentDragPosition(), bean);
+
             //如果没拖到右边的区域，那么将拖拽的item恢复
             if (!isDragInRightArea()) {
-                mDragLeftView.addDataByIndex(mDragLeftView.getCurrentDragPosition(), mDragLeftView.getCurrentDragValue());
+                bean.setDragInRight(false);
                 dragView.getAdapter().notifyDataSetChanged();
             } else {
-                //todo: 拖拽到右布局的逻辑
+                //todo: 拖拽到右布局的逻辑 (恢复左布局item（并设置灰色），新增右布局item)
+                bean.setDragInRight(true);
+                dragView.getAdapter().notifyDataSetChanged();
+                RightBean rightBean = new RightBean();
+                rightBean.setItemName(itemName);
+                rightChooseAdapter.addData(rightBean);
             }
         }
         // 停止滚动
@@ -415,11 +443,20 @@ public class DragChessView extends FrameLayout {
         mDragLeftView.setAdapter(adapter);
     }
 
+    public void setRightAdapter(@NotNull RightChooseAdapter adapter) {
+        rightChooseAdapter = adapter;
+        mRvEnd.setAdapter(rightChooseAdapter);
+        mRvEnd.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+
+    //!----------not use ----------------
+
     /**
      * 拖拽时改变item的下标index （因为拖拽的时候列表内部item不变，所以这个函数在英检的功能里用不上）
      *
      * @param dragView dragView
-     * @param to to
+     * @param to       to
      */
     private void dragChangePosition(DragView dragView, int to) {
         if (to != dragView.getCurrentDragPosition() && isCanDragMove(dragView, to)) {
